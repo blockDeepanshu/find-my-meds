@@ -5,15 +5,24 @@ import { getDb } from "@/lib/mongo";
 import { parseFromImageUrl } from "@/lib/vision-parser";
 import { buildCatalogQuery, buildBuyLinks } from "@/lib/links";
 import { llmCatalogQueryFallback } from "@/lib/links-llm";
+import { getCurrentUser } from "@/lib/jwt";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(_: Request, { params }: { params: { id: string } }) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = await params;
   const db = await getDb();
   const _id = new ObjectId(id);
-  const doc = await db.collection("prescriptions").findOne({ _id });
+  const doc = await db.collection("prescriptions").findOne({ 
+    _id,
+    userId: new ObjectId(user.userId)
+  });
   if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   await db

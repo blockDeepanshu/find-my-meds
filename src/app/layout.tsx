@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Rx Reader",
-  description: "Upload prescription → get structured meds + buy links",
+  title: "Find My Med",
+  description:
+    "Turn handwritten prescriptions into clear medicine orders with AI-powered OCR",
 };
 
 export default function RootLayout({
@@ -13,8 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-neutral-50 text-neutral-900 antialiased">
-        <main className="mx-auto w-full max-w-4xl px-4 py-8">{children}</main>
+      <body className="min-h-screen bg-white text-neutral-900 antialiased">
+        <Providers>
+          <main className="w-full">{children}</main>
+        </Providers>
       </body>
     </html>
   );
