@@ -4,6 +4,7 @@ import { put } from "@vercel/blob";
 import { getDb } from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 import { getCurrentUser } from "@/lib/jwt";
+import { consumeUpload, getUserQuotaStatus } from "@/lib/user";
 
 export const runtime = "nodejs"; // ensure Node runtime (not edge) for formData + Blob SDK
 
@@ -14,10 +15,30 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // Check quota before processing upload
+  const quotaStatus = await getUserQuotaStatus(user.userId);
+  if (!quotaStatus.canUpload) {
+    return NextResponse.json({ 
+      error: "Upload quota exceeded", 
+      quotaStatus,
+      needsPayment: true 
+    }, { status: 402 }); // 402 Payment Required
+  }
+
   const form = await req.formData();
   const file = form.get("file") as File | null;
   if (!file)
     return NextResponse.json({ error: "No file received" }, { status: 400 });
+
+  // Consume upload quota
+  const uploadResult = await consumeUpload(user.userId, user.email);
+  if (!uploadResult.success) {
+    return NextResponse.json({ 
+      error: "Failed to consume upload quota", 
+      quotaStatus: await getUserQuotaStatus(user.userId),
+      needsPayment: true 
+    }, { status: 402 });
+  }
 
   // Upload to Vercel Blob
   const arrayBuffer = await file.arrayBuffer();
@@ -45,5 +66,11 @@ export async function POST(req: Request) {
   const res = await db.collection("prescriptions").insertOne(doc);
   const id = (res.insertedId as ObjectId).toString();
 
-  return NextResponse.json({ prescriptionId: id });
+  return NextResponse.json({ 
+    prescriptionId: id,
+    quotaStatus: {
+      ...await getUserQuotaStatus(user.userId),
+      usedFree: uploadResult.usedFree,
+    }
+  });
 }

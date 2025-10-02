@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { SmoothLink } from "@/components/LoadingRedirect";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -134,7 +135,7 @@ export default function LoginPage() {
                 setIsRegistering(!isRegistering);
                 setError("");
               }}
-              className="text-indigo-600 font-medium hover:text-indigo-700 transition duration-150"
+              className="text-indigo-600 font-medium hover:text-indigo-700 transition duration-150 cursor-pointer"
             >
               {isRegistering ? "Sign in" : "Create one"}
             </button>
@@ -143,12 +144,13 @@ export default function LoginPage() {
 
         {/* Back to home */}
         <div className="text-center mt-6">
-          <Link
+          <SmoothLink
             href="/"
-            className="text-indigo-600 hover:text-indigo-700 text-sm font-medium transition duration-150"
+            className="text-indigo-600 hover:text-indigo-700 text-sm font-medium transition duration-150 cursor-pointer"
+            loadingMessage="Loading homepage..."
           >
             ← Back to homepage
-          </Link>
+          </SmoothLink>
         </div>
       </div>
     </div>

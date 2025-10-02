@@ -45,10 +45,7 @@ export async function runOCRFromBytes(bytes: Buffer): Promise<string> {
     corePath,
     // Use hosted language data (keeps your bundle small)
     langPath: "https://tessdata.projectnaptha.com/4.0.0",
-    logger:
-      process.env.NODE_ENV === "development"
-        ? (m) => console.log(m)
-        : undefined,
+    logger: undefined,
   });
 
   await worker.loadLanguage("eng");

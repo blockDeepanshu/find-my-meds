@@ -19,8 +19,21 @@ export interface MedicationItem {
   buyUrl?: string | null;
 }
 
+export interface UserDoc {
+  _id?: any;
+  email: string;
+  password?: string;  // Optional because some queries might not include it
+  name?: string;      // Optional because some queries might not include it
+  // upload quota & usage
+  freeUploadsRemaining: number;      // start at 2
+  paidUploadsRemaining: number;      // starts at 0; +20 per successful pack purchase
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface PrescriptionDoc {
   _id?: any;
+  userId: any; // ObjectId reference to user
   fileUrl: string;
   status: RxStatus;
   ocrText?: string | null;

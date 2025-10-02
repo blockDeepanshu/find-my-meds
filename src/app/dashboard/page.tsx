@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { QuotaStatus } from "@/components/QuotaStatus";
+import { PaymentButton } from "@/components/PaymentButton";
+import { Header } from "@/components/Header";
+import { SmoothLink } from "@/components/LoadingRedirect";
 
 interface Prescription {
   _id: string;
@@ -42,6 +46,8 @@ export default function DashboardPage() {
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [quotaKey, setQuotaKey] = useState(0);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -51,6 +57,17 @@ export default function DashboardPage() {
     }
 
     fetchPrescriptions();
+
+    // Check for payment success in URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("payment") === "success") {
+      // Refresh quota display after successful payment
+      setQuotaKey((prev) => prev + 1);
+
+      // Clear the URL parameter to avoid repeated refreshes
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
   }, [user, loading, router]);
 
   const fetchPrescriptions = async () => {
@@ -73,7 +90,12 @@ export default function DashboardPage() {
   };
 
   const handleLogout = async () => {
-    await logout();
+    setIsLoggingOut(true);
+    try {
+      await logout();
+    } catch (error) {
+      setIsLoggingOut(false);
+    }
   };
 
   if (loading || isLoading) {
@@ -86,30 +108,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/">
-              <h1 className="text-2xl font-bold text-indigo-600 hover:text-indigo-700 transition duration-150">
-                Find My Med
-              </h1>
-            </Link>
-
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">
-                Welcome, {user.name || user.email}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition duration-150 ease-in-out"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header showAuth={true} onLogout={handleLogout} />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -128,60 +127,113 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Upload Button */}
-        <div className="mb-6">
-          <Link
-            href="/upload"
-            className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out"
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Upload New Prescription
-          </Link>
-        </div>
+        {/* Dashboard Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Quota Status Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="space-y-6">
+              <QuotaStatus key={quotaKey} refreshTrigger={quotaKey} />
 
-        {/* Prescriptions List */}
-        {prescriptions.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            {/* Desktop Table */}
-            <div className="hidden md:block">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Date Uploaded
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Medicines
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+              <div>
+                <PaymentButton
+                  onPaymentComplete={() => {
+                    setQuotaKey((prev) => prev + 1);
+                  }}
+                />
+              </div>
+
+              <SmoothLink
+                href="/upload"
+                className="w-full inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out cursor-pointer"
+                loadingMessage="Loading upload page..."
+              >
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Upload New Prescription
+              </SmoothLink>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            {/* Prescriptions List */}
+            {prescriptions.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                {/* Desktop Table */}
+                <div className="hidden md:block">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Date Uploaded
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Medicines
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {prescriptions.map((prescription) => (
+                        <tr key={prescription._id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {new Date(
+                              prescription.createdAt
+                            ).toLocaleDateString()}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
+                                STATUS_CONFIG[prescription.status].color
+                              }`}
+                            >
+                              {STATUS_CONFIG[prescription.status].label}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {prescription.medicineCount} medicine
+                            {prescription.medicineCount !== 1 ? "s" : ""}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <Link
+                              href={`/p/${prescription._id}`}
+                              className="text-indigo-600 hover:text-indigo-900 transition duration-150"
+                            >
+                              View Details
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Cards */}
+                <div className="md:hidden">
                   {prescriptions.map((prescription) => (
-                    <tr key={prescription._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {new Date(prescription.createdAt).toLocaleDateString()}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                    <div
+                      key={prescription._id}
+                      className="p-6 border-b border-gray-200 last:border-b-0"
+                    >
+                      <div className="flex items-center justify-between mb-3">
                         <span
                           className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
                             STATUS_CONFIG[prescription.status].color
@@ -189,74 +241,45 @@ export default function DashboardPage() {
                         >
                           {STATUS_CONFIG[prescription.status].label}
                         </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {prescription.medicineCount} medicine
-                        {prescription.medicineCount !== 1 ? "s" : ""}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <Link
-                          href={`/p/${prescription._id}`}
-                          className="text-indigo-600 hover:text-indigo-900 transition duration-150"
+                        <span className="text-sm text-gray-500">
+                          {new Date(
+                            prescription.createdAt
+                          ).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <p className="text-sm text-gray-900">
+                          {prescription.medicineCount} medicine
+                          {prescription.medicineCount !== 1 ? "s" : ""}{" "}
+                          extracted
+                        </p>
+                      </div>
+                      <Link
+                        href={`/p/${prescription._id}`}
+                        className="inline-flex items-center text-indigo-600 hover:text-indigo-900 text-sm font-medium transition duration-150"
+                      >
+                        View Details
+                        <svg
+                          className="ml-1 w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
-                          View Details
-                        </Link>
-                      </td>
-                    </tr>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
                   ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile Cards */}
-            <div className="md:hidden">
-              {prescriptions.map((prescription) => (
-                <div
-                  key={prescription._id}
-                  className="p-6 border-b border-gray-200 last:border-b-0"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
-                        STATUS_CONFIG[prescription.status].color
-                      }`}
-                    >
-                      {STATUS_CONFIG[prescription.status].label}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {new Date(prescription.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <div className="mb-3">
-                    <p className="text-sm text-gray-900">
-                      {prescription.medicineCount} medicine
-                      {prescription.medicineCount !== 1 ? "s" : ""} extracted
-                    </p>
-                  </div>
-                  <Link
-                    href={`/p/${prescription._id}`}
-                    className="inline-flex items-center text-indigo-600 hover:text-indigo-900 text-sm font-medium transition duration-150"
-                  >
-                    View Details
-                    <svg
-                      className="ml-1 w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </Link>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </main>
     </div>
   );

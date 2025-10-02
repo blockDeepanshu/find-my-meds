@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SmoothLink } from "@/components/LoadingRedirect";
 
 export default function Home() {
   return (
@@ -22,12 +23,13 @@ export default function Home() {
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
-                    <Link
+                    <SmoothLink
                       href="/upload"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition duration-150 ease-in-out"
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition duration-150 ease-in-out cursor-pointer"
+                      loadingMessage="Loading upload page..."
                     >
                       Get Started
-                    </Link>
+                    </SmoothLink>
                   </div>
                 </div>
               </div>
@@ -380,12 +382,13 @@ export default function Home() {
                     </li>
                   </ul>
                   <div className="mt-8">
-                    <Link
+                    <SmoothLink
                       href="/upload"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out"
+                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out cursor-pointer"
+                      loadingMessage="Loading upload page..."
                     >
                       Get Started Free
-                    </Link>
+                    </SmoothLink>
                   </div>
                 </div>
               </div>
@@ -495,12 +498,13 @@ export default function Home() {
                     </li>
                   </ul>
                   <div className="mt-8">
-                    <Link
+                    <SmoothLink
                       href="/upload"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out"
+                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out cursor-pointer"
+                      loadingMessage="Loading upload page..."
                     >
                       Start Pro Trial
-                    </Link>
+                    </SmoothLink>
                   </div>
                 </div>
               </div>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { getDb } from '@/lib/mongo'
 import { signToken, setAuthCookie } from '@/lib/jwt'
+import { ObjectId } from 'mongodb'
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +30,11 @@ export async function POST(request: NextRequest) {
       email,
       password: hashedPassword,
       name: name || email.split('@')[0],
+      // Initialize quota fields for new users
+      freeUploadsRemaining: 2,
+      paidUploadsRemaining: 0,
       createdAt: new Date(),
+      updatedAt: new Date(),
     }
 
     const result = await db.collection('users').insertOne(newUser)
