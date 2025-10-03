@@ -291,220 +291,299 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:text-center">
             <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">
               Pricing
             </h2>
             <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Simple, Transparent Pricing
+              Simple, Pay-As-You-Go Pricing
+            </p>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+              Start free and only pay when you need more uploads. No
+              subscriptions, no hidden fees.
             </p>
           </div>
 
           <div className="mt-16">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-              {/* Free Plan */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="px-6 py-8">
-                  <h3 className="text-2xl font-semibold text-gray-900">Free</h3>
-                  <p className="mt-4 text-gray-500">
-                    Perfect for occasional use
+              {/* Free Tier */}
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                <div className="px-8 py-8">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-2xl font-bold text-gray-900">Free</h3>
+                    <span className="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                      Get Started
+                    </span>
+                  </div>
+                  <p className="mt-4 text-gray-600">
+                    Perfect for trying out the service
                   </p>
-                  <p className="mt-8">
+                  <div className="mt-8">
                     <span className="text-4xl font-extrabold text-gray-900">
                       ₹0
                     </span>
-                    <span className="text-base font-medium text-gray-500">
-                      /month
+                    <span className="text-lg font-medium text-gray-500 ml-1">
+                      forever
                     </span>
-                  </p>
+                  </div>
+
                   <ul className="mt-8 space-y-4">
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        Up to 5 prescriptions per month
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-green-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        <strong>2 free uploads</strong> included
+                      </span>
                     </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        AI-powered OCR
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-green-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        AI-powered text extraction
+                      </span>
                     </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        Medicine buy links
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-green-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        Medicine identification
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-green-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        Online purchase links
+                      </span>
                     </li>
                   </ul>
+
                   <div className="mt-8">
                     <SmoothLink
                       href="/upload"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out cursor-pointer"
-                      loadingMessage="Loading upload page..."
+                      className="w-full bg-gray-900 border border-transparent rounded-lg py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-gray-800 transition duration-200 cursor-pointer"
+                      loadingMessage="Starting your free uploads..."
                     >
-                      Get Started Free
+                      Start Free
                     </SmoothLink>
                   </div>
                 </div>
               </div>
 
-              {/* Pro Plan */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-indigo-500">
-                <div className="px-6 py-8">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-2xl font-semibold text-gray-900">
-                      Pro
+              {/* Pay Per Use */}
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-indigo-500 relative transform scale-105">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span className="inline-flex px-4 py-1 rounded-full text-sm font-semibold bg-indigo-600 text-white">
+                    Most Popular
+                  </span>
+                </div>
+                <div className="px-8 py-8 pt-12">
+                  <div className="text-center">
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Pay-as-you-go
                     </h3>
-                    <span className="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-indigo-100 text-indigo-800">
-                      Most Popular
-                    </span>
+                    <p className="mt-4 text-gray-600">
+                      Buy credits when you need them
+                    </p>
+                    <div className="mt-8">
+                      <span className="text-4xl font-extrabold text-indigo-600">
+                        ₹100
+                      </span>
+                      <span className="text-lg font-medium text-gray-500 ml-1">
+                        for 20 uploads
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Just ₹5 per upload
+                    </p>
                   </div>
-                  <p className="mt-4 text-gray-500">
-                    For regular users and families
-                  </p>
-                  <p className="mt-8">
-                    <span className="text-4xl font-extrabold text-gray-900">
-                      ₹299
-                    </span>
-                    <span className="text-base font-medium text-gray-500">
-                      /month
-                    </span>
-                  </p>
+
                   <ul className="mt-8 space-y-4">
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        Unlimited prescriptions
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        <strong>20 prescription uploads</strong>
+                      </span>
                     </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        Priority AI processing
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        All free features included
+                      </span>
                     </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        Prescription history
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        Credits never expire
+                      </span>
                     </li>
-                    <li className="flex items-start">
-                      <div className="flex-shrink-0">
-                        <svg
-                          className="h-6 w-6 text-green-500"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <p className="ml-3 text-base text-gray-700">
-                        24/7 customer support
-                      </p>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">
+                        Secure payment via Stripe
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="text-gray-700">Email support</span>
                     </li>
                   </ul>
+
                   <div className="mt-8">
                     <SmoothLink
                       href="/upload"
-                      className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-150 ease-in-out cursor-pointer"
-                      loadingMessage="Loading upload page..."
+                      className="w-full bg-indigo-600 border border-transparent rounded-lg py-3 px-6 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 transition duration-200 cursor-pointer shadow-lg"
+                      loadingMessage="Taking you to upload..."
                     >
-                      Start Pro Trial
+                      Buy Credits
                     </SmoothLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* FAQ/Additional Info */}
+            <div className="mt-16 text-center">
+              <div className="bg-indigo-50 rounded-xl p-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  💡 How it works
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-600">
+                  <div>
+                    <div className="bg-white rounded-lg p-4 mb-2">
+                      <span className="text-2xl">📸</span>
+                    </div>
+                    <p>
+                      <strong>1. Upload</strong>
+                      <br />
+                      Take a photo of your prescription
+                    </p>
+                  </div>
+                  <div>
+                    <div className="bg-white rounded-lg p-4 mb-2">
+                      <span className="text-2xl">🤖</span>
+                    </div>
+                    <p>
+                      <strong>2. AI Processing</strong>
+                      <br />
+                      Our AI extracts medicine details
+                    </p>
+                  </div>
+                  <div>
+                    <div className="bg-white rounded-lg p-4 mb-2">
+                      <span className="text-2xl">💊</span>
+                    </div>
+                    <p>
+                      <strong>3. Get Results</strong>
+                      <br />
+                      Structured data + buy links
+                    </p>
                   </div>
                 </div>
               </div>
