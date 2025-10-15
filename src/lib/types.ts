@@ -36,7 +36,6 @@ export interface PrescriptionDoc {
   userId: any; // ObjectId reference to user
   fileUrl: string;
   status: RxStatus;
-  ocrText?: string | null;
   items: MedicationItem[];
   overallConfidence?: number | null;
   createdAt: Date;

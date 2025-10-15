@@ -56,7 +56,6 @@ export async function POST(req: Request) {
     userId: new ObjectId(user.userId),
     fileUrl: url,
     status: "PROCESSING",
-    ocrText: null,
     items: [] as any[],
     overallConfidence: null,
     createdAt: now,

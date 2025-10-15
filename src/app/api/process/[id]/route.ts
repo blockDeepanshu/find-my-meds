@@ -10,7 +10,7 @@ import { getCurrentUser } from "@/lib/jwt";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-export async function POST(_: Request, { params }: { params: { id: string } }) {
+export async function POST(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

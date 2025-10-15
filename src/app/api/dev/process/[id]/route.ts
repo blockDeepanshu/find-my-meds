@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongo";
 import { ObjectId } from "mongodb";
 
-export async function POST(_: Request, { params }: { params: { id: string } }) {
+export async function POST(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const db = await getDb();
   const doc = await db
     .collection("prescriptions")
-    .findOne({ _id: new ObjectId(params.id) });
+    .findOne({ _id: new ObjectId(id) });
   if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   // Simulated OCR/LLM result
@@ -38,7 +39,7 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
   ];
 
   await db.collection("prescriptions").updateOne(
-    { _id: new ObjectId(params.id) },
+    { _id: new ObjectId(id) },
     {
       $set: {
         items,
@@ -51,6 +52,6 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
 
   const updated = await db
     .collection("prescriptions")
-    .findOne({ _id: new ObjectId(params.id) });
+    .findOne({ _id: new ObjectId(id) });
   return NextResponse.json({ ...updated, _id: updated!._id.toString() });
 }
